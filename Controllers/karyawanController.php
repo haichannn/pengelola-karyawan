@@ -4,20 +4,34 @@ namespace Controllers;
 
 // Imported file and Class 
 require "./Models/karyawanModel.php";
-use Models\Karyawan as KaryawanModel;
+require "./utils/santitizeInput.php";
+require "./utils/parser.php";
 
-class Karyawan extends KaryawanModel
+use Models\KaryawanModel;
+use SanitizeInput;
+
+class KaryawanController extends KaryawanModel
 {
-    static public function GetAllKaryawan() {
-        $GetAllDataKarywaan = new Karyawan();
-        $ResultGetAllData = $GetAllDataKarywaan->GetAllData();
-       
-        // Jika data karyawan kosong 
-        if (count($ResultGetAllData) === 0) {
-            return false;
-        }
+   static public function GetAllKaryawan()
+   {
 
-        return $ResultGetAllData;
-    }
+      $GetAllDataKarywaan = new KaryawanModel();
+      $ResultGetAllData = $GetAllDataKarywaan->GetData();
+
+      // Jika data karyawan kosong 
+      if (count($ResultGetAllData) === 0) {
+         return false;
+      }
+
+      return $ResultGetAllData;
+   }
+
+   static public function InsertKaryawan($dataInputed)
+   {
+      $resultSanitize = SanitizeInput::Santize($dataInputed);
+      $InsertDataKaryawan = new KaryawanModel();
+      $resultInsertData = $InsertDataKaryawan->InsertData($resultSanitize);
+      
+      return $resultInsertData;
+   }
 }
-
