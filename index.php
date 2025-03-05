@@ -102,14 +102,14 @@ $DatasKaryawan = KaryawanController::GetAllKaryawan();
                      <?php foreach ($DatasKaryawan as $Data) : ?>
                         <tr>
                            <td><?= $indexData ?></td> <!-- Index Nomer -->
-                           <td><?= $Data[0] ?></td> <!-- Nama Lengkap -->
-                           <td><?= $Data[1] ?></td> <!-- Email -->
-                           <td><?= $Data[2] ?></td> <!-- Jabatan -->
+                           <td><?= $Data[1] ?></td> <!-- Nama Lengkap -->
+                           <td><?= $Data[2] ?></td> <!-- Email -->
+                           <td><?= $Data[3] ?></td> <!-- Jabatan -->
 
                            <td>
                               <section>
                                  <div>
-                                    <a href="delete.php">Hapus</a>
+                                    <a href="deletePage.php?id=<?= $Data[0] ?>">Hapus</a>
                                     <a href="edit.php">Edit</a>
                                  </div>
                               </section>

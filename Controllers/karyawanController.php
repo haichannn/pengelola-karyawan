@@ -2,19 +2,20 @@
 
 namespace Controllers;
 
-// Imported file and Class 
 require "./Models/karyawanModel.php";
 require "./utils/santitizeInput.php";
 require "./utils/parser.php";
 
 use Models\KaryawanModel;
-use SanitizeInput;
+use Utils \ {
+   Parser,
+   SanitizeInput
+};
 
 class KaryawanController extends KaryawanModel
 {
    static public function GetAllKaryawan()
    {
-
       $GetAllDataKarywaan = new KaryawanModel();
       $ResultGetAllData = $GetAllDataKarywaan->GetData();
 
@@ -26,12 +27,59 @@ class KaryawanController extends KaryawanModel
       return $ResultGetAllData;
    }
 
+   static public function GetKaryawanById($idRawKaryawan)
+   {
+      // konversi string ke number
+      $idKaryawan = Parser::ParserToInt($idRawKaryawan);
+
+      if ($idKaryawan == 0) {
+         header("Location: index.php");
+         return false;
+      }
+
+      $GetDataById = new KaryawanModel();
+      return $GetDataById->GetDataById($idKaryawan);
+   }
+
    static public function InsertKaryawan($dataInputed)
    {
       $resultSanitize = SanitizeInput::Santize($dataInputed);
       $InsertDataKaryawan = new KaryawanModel();
-      $resultInsertData = $InsertDataKaryawan->InsertData($resultSanitize);
+      return $InsertDataKaryawan->InsertData($resultSanitize);
       
-      return $resultInsertData;
+   }
+
+   static public function DeleteKaryawan($idRawKaryawan)
+   {
+      // konversi string ke number
+      $idKaryawan = Parser::ParserToInt($idRawKaryawan);
+
+      if ($idKaryawan == 0) {
+         header("Location: index.php");
+         return false;
+      }
+
+      $deleteKaryawan = new KaryawanModel();
+      $resultDeletekaryawan = $deleteKaryawan->DeleteData($idKaryawan);
+
+      if ($resultDeletekaryawan == 1) {
+         echo "data berhasil dihapus";
+         echo "
+               <script>
+                  setTimeout(() => {
+                     document.location.href = 'index.php';
+                  }, 2000);   
+               </script>
+            ";
+      } else {
+         echo "Gagal, data tidak ditemukan";
+         echo "
+         <script>
+            setTimeout(() => {
+               document.location.href = 'index.php';
+            }, 2000);   
+         </script>
+      ";
+      }
    }
 }

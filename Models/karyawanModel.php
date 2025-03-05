@@ -2,25 +2,29 @@
 
 namespace Models;
 
-// Imported file and Class 
-require "./Config/database.php";
-use Config\Database;
+require "query.php";
+use Models\Query;
 
-class KaryawanModel extends Database
+class KaryawanModel extends Query
 {
-   public function __construct()
+   protected function indexQuery(string $queryInput)
    {
-      $koneksiDb = new Database();
-      $this->koneksi = $koneksiDb->koneksi;
+      $HitQuery = $this->koneksi->query($queryInput);
+      return $HitQuery;
    }
 
-   protected function GetData(): array
+   protected function GetData()
    {
-      $sqlSelectKaryawan = "SELECT karyawan.nama_lengkap, email, jabatan.nama_jabatan 
-                            FROM karyawan JOIN jabatan ON karyawan.jabatan = jabatan.id
-                           ";
-      $resultSql = $this->koneksi->query($sqlSelectKaryawan);
-      return $resultSql->fetch_all();
+      $sqlSelectData = self::indexQuery("SELECT karyawan.id, karyawan.nama_lengkap, email, jabatan.nama_jabatan 
+      FROM karyawan JOIN jabatan ON karyawan.jabatan = jabatan.id
+      ");
+
+      return $sqlSelectData->fetch_all();
+   }
+
+   protected function GetDataById(int $idKaryawan): array {
+      $sqlSelectById = self::indexQuery("SELECT nama_lengkap FROM karyawan WHERE id = $idKaryawan");
+      return $sqlSelectById->fetch_all();
    }
 
    protected function InsertData($dataKaryawan)
@@ -32,24 +36,31 @@ class KaryawanModel extends Database
       $tanggalLahir = $dataKaryawan["tanggalLahir"];
 
       // Cari email berdasarkan nama email 
-      $sqlSearchEmail = "SELECT id FROM karyawan WHERE email = '$email' ";
-      $querySqlSearch = $this->koneksi->query($sqlSearchEmail);
-      $resultTotalData = count($querySqlSearch->fetch_all());
+      $sqlSearchEmail = self::indexQuery("SELECT id FROM karyawan WHERE email = '$email' ");
+      $resultTotalData = count($sqlSearchEmail->fetch_all());
 
       // jika user mencoba memasukan email sudah terdaftar
       if ($resultTotalData > 0) {
          return false;
       }
 
-      $sqlInsert = "INSERT INTO karyawan (nama_lengkap,jenis_kelamin,tanggal_lahir,email,jabatan) VALUES ('$username','$jenisKelamin','$tanggalLahir','$email','$jabatan')";
-
-      $this->koneksi->query($sqlInsert);
+      self::indexQuery("INSERT INTO karyawan (nama_lengkap,jenis_kelamin,tanggal_lahir,email,jabatan) VALUES ('$username','$jenisKelamin','$tanggalLahir','$email','$jabatan')");
 
       return $this->koneksi->affected_rows;
    }
 
-   public function __destruct()
+   protected function DeleteData($idKaryawan)
    {
-      $this->koneksi->close();
+      // cari data karyawan berdasarkan id 
+      $sqlSelectDataById = self::GetDataById($idKaryawan);
+      $resultDataFound = count($sqlSelectDataById);
+
+      if ($resultDataFound > 0) { // jika data ketemu
+         self::indexQuery("DELETE FROM karyawan WHERE id = $idKaryawan");
+         
+         return $this->koneksi->affected_rows;
+      } else {
+         return false;
+      }
    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Utils;
+
 class SanitizeInput {
    static public function Santize($DataInputed) {
       $sanitizeData = [];
