@@ -1,10 +1,11 @@
 <?php
-
+// Imported files
 require "./Controllers/karyawanController.php";
 
+// Uses the classes
 use Controllers\KaryawanController;
 
-$DatasKaryawan = KaryawanController::GetAllKaryawan();
+$resultGetAllKaryawan = KaryawanController::GetAllKaryawan();
 
 ?>
 
@@ -96,16 +97,15 @@ $DatasKaryawan = KaryawanController::GetAllKaryawan();
                   <th>Action Menu</th>
                </thead>
                <tbody>
-                  <?php if ($DatasKaryawan) : ?>
+                  <?php if (gettype($resultGetAllKaryawan) == "array") : ?>
                      <?php $indexData = 1; ?>
 
-                     <?php foreach ($DatasKaryawan as $Data) : ?>
+                     <?php foreach ($resultGetAllKaryawan as $Data) : ?>
                         <tr>
                            <td><?= $indexData ?></td> <!-- Index Nomer -->
                            <td><?= $Data[1] ?></td> <!-- Nama Lengkap -->
                            <td><?= $Data[2] ?></td> <!-- Email -->
                            <td><?= $Data[3] ?></td> <!-- Jabatan -->
-
                            <td>
                               <section>
                                  <div>
@@ -119,9 +119,7 @@ $DatasKaryawan = KaryawanController::GetAllKaryawan();
                      <?php endforeach ?>
 
                   <?php else : ?>
-
-                     <p style="padding-bottom: 15px;">Data sedang tidak tersedia</p>
-
+                     <p style="padding-bottom: 15px;"><?= $resultGetAllKaryawan ?></p>
                   <?php endif ?>
                </tbody>
             </table>

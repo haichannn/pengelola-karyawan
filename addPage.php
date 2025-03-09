@@ -1,10 +1,12 @@
 <?php
-
+// Imported files
 require_once "Controllers/karyawanController.php";
+
+// Uses the classes
 use Controllers\KaryawanController;
 
 if (isset($_POST["tombol-submit"])) {
-   $insertProcess = KaryawanController::InsertKaryawan($_POST);
+   $resultInsertKaryawan = KaryawanController::InsertKaryawan($_POST);
 }
 
 ?>
@@ -126,14 +128,11 @@ if (isset($_POST["tombol-submit"])) {
                   <a href="index.php">Kembali</a>
                </div>
 
-               <?php if (isset($insertProcess)) : ?>
+               <?php if (isset($resultInsertKaryawan)) : ?>
                   <div>
-                     <?php if ($insertProcess == 1) : ?>
-                        <span>Data berhasil dimasukan !</span>
-
-                     <?php else : ?>
-                        <span style="color: red;">Email sudah digunakan</span>
-                     <?php endif ?>
+                     <span>
+                        <?= ($resultInsertKaryawan == 1) ? "Data berhasil dimasukan !" : $resultInsertKaryawan ?>
+                     </span>
                   </div>
                <?php endif ?>
             </div>
@@ -142,7 +141,7 @@ if (isset($_POST["tombol-submit"])) {
                <form method="post">
                   <div class="box-input">
                      <div class="field-username">
-                        <label>Username</label>
+                        <label>Nama Lengkap</label>
                         <input type="text" name="username" required>
                      </div>
                      <div class="field-email">

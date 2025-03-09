@@ -1,7 +1,7 @@
 <?php
-
 namespace Config;
 
+// Uses the classes
 use mysqli;
 
 class Database

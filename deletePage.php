@@ -1,7 +1,8 @@
 <?php
-
+// Imported files
 require_once "Controllers/karyawanController.php";
 
+// Uses the classes
 use Controllers\KaryawanController;
 use Utils\SanitizeInput;
 
@@ -15,7 +16,7 @@ if (is_null($idKaryawan)) {
 $getKaryawanById = KaryawanController::GetKaryawanById($idKaryawan[0]);
 
 if (isset($_POST["deleteButton"])) {
-   KaryawanController::DeleteKaryawan($idKaryawan[0]);
+   $resultDeleteKaryawan = KaryawanController::DeleteKaryawan($idKaryawan[0]);
 }
 
 ?>
@@ -128,6 +129,7 @@ if (isset($_POST["deleteButton"])) {
 
             <div class="content-title">
                <h4 class="title">Berbahaya</h4>
+               <p class="sub-title" style="text-align: center;"><?= $resultDeleteKaryawan ?? null ?></p>
                <hr>
                <p class="sub-title">Apakah anda yakin akan menghapus</p>
                <span class="sub-title">karyawan: <b class="title-name"><?= $getKaryawanById[0][0] ?></b></span>

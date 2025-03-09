@@ -1,8 +1,9 @@
 <?php
-
+// Imported files
 require "Controllers/karyawanController.php";
 require_once "utils/santitizeInput.php";
 
+// Uses the classes
 use Controllers\KaryawanController;
 use Utils \ {
   SanitizeInput,

@@ -1,9 +1,10 @@
 <?php
-
 namespace Utils;
 
-class SanitizeInput {
-   static public function Santize($DataInputed) {
+class SanitizeInput
+{
+   static public function Santize($DataInputed)
+   {
       $sanitizeData = [];
 
       foreach ($DataInputed as $key => $value) {
@@ -14,5 +15,3 @@ class SanitizeInput {
       return $sanitizeData;
    }
 }
-
-?>

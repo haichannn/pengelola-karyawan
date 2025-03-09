@@ -1,11 +1,12 @@
 <?php
-
 namespace Controllers;
 
+// Imported files
 require "./Models/karyawanModel.php";
 require "./utils/santitizeInput.php";
 require "./utils/parser.php";
 
+// Uses the classes
 use Models\KaryawanModel;
 use Utils \ {
    Parser,
@@ -15,20 +16,18 @@ use Exception;
 
 class KaryawanController extends KaryawanModel
 {
-   static public function GetAllKaryawan()
+   static public function GetAllKaryawan(): array|string
    {
-      $GetAllDataKarywaan = new KaryawanModel();
-      $ResultGetAllData = $GetAllDataKarywaan->GetData();
+      $getAllDataKaryawan = new KaryawanModel();
 
-      // Jika data karyawan kosong 
-      if (count($ResultGetAllData) === 0) {
-         return false;
+      try {
+         return $getAllDataKaryawan->GetData();
+      } catch (Exception $e) {
+         return $e->getMessage();
       }
-
-      return $ResultGetAllData;
    }
 
-   static public function GetKaryawanById($idRawKaryawan)
+   static public function GetKaryawanById(string $idRawKaryawan): array
    {
       // konversi string ke number
       $idKaryawan = Parser::ParserToInt($idRawKaryawan);
@@ -42,14 +41,19 @@ class KaryawanController extends KaryawanModel
       return $GetDataById->GetDataById($idKaryawan);
    }
 
-   static public function InsertKaryawan($dataInputed)
+   static public function InsertKaryawan(array $dataInputed): int|string
    {
       $resultSanitize = SanitizeInput::Santize($dataInputed);
       $InsertDataKaryawan = new KaryawanModel();
-      return $InsertDataKaryawan->InsertData($resultSanitize);
+      
+      try {
+         return $InsertDataKaryawan->InsertData($resultSanitize);
+      } catch (Exception $e) {
+         return $e->getMessage();
+      }
    }
 
-   static public function DeleteKaryawan($idRawKaryawan)
+   static public function DeleteKaryawan(string $idRawKaryawan): string
    {
       // konversi string ke number
       $idKaryawan = Parser::ParserToInt($idRawKaryawan);
@@ -60,41 +64,36 @@ class KaryawanController extends KaryawanModel
       }
 
       $deleteKaryawan = new KaryawanModel();
-      $resultDeletekaryawan = $deleteKaryawan->DeleteData($idKaryawan);
-
-      if ($resultDeletekaryawan == 1) {
-         echo "data berhasil dihapus";
+      
+      try {
+         $deleteKaryawan->DeleteData($idKaryawan);
          echo "
                <script>
                   setTimeout(() => {
                      document.location.href = 'index.php';
-                  }, 2000);   
+                  }, 1500);   
                </script>
             ";
-      } else {
-         echo "Gagal, data tidak ditemukan";
-         echo "
-         <script>
-            setTimeout(() => {
-               document.location.href = 'index.php';
-            }, 2000);   
-         </script>
-      ";
+         return "Data berhasil dihapus";
+      } catch (Exception $e) {
+         return $e->getMessage();
       }
    }
 
-   static public function UpdateKaryawan($idRawKaryawan, $dataInputed)
+   static public function UpdateKaryawan(string $idRawKaryawan, array $dataInputed): string|null
    {
       $idKaryawan = Parser::ParserToInt($idRawKaryawan);
-      $resultSantize = SanitizeInput::Santize($dataInputed);
-      $UpdateDataKaryawan = new KaryawanModel();
+      $updateDataKaryawan = new KaryawanModel();
 
       try {
-         $resultUpdateKaryawan = $UpdateDataKaryawan->UpdateData($idKaryawan, $resultSantize);
+         $resultUpdateKaryawan = $updateDataKaryawan->UpdateData($idKaryawan, SanitizeInput::Santize($dataInputed));
 
          if ($resultUpdateKaryawan == 1) {
-            return "Berhasil diupdate";
+            return "Data berhasil diupdate !";
          }
+
+         return null;
+
       } catch (Exception $e) {
          return $e->getMessage();
       }

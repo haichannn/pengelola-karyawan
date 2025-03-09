@@ -1,8 +1,10 @@
 <?php
-
 namespace Models;
 
+// Imported files
 require "./Config/database.php";
+
+// Uses the classes
 use Config\Database;
 
 abstract class Query extends Database{
