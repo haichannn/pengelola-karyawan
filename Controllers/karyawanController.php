@@ -11,6 +11,7 @@ use Utils \ {
    Parser,
    SanitizeInput
 };
+use Exception;
 
 class KaryawanController extends KaryawanModel
 {
@@ -46,7 +47,6 @@ class KaryawanController extends KaryawanModel
       $resultSanitize = SanitizeInput::Santize($dataInputed);
       $InsertDataKaryawan = new KaryawanModel();
       return $InsertDataKaryawan->InsertData($resultSanitize);
-      
    }
 
    static public function DeleteKaryawan($idRawKaryawan)
@@ -80,6 +80,23 @@ class KaryawanController extends KaryawanModel
             }, 2000);   
          </script>
       ";
+      }
+   }
+
+   static public function UpdateKaryawan($idRawKaryawan, $dataInputed)
+   {
+      $idKaryawan = Parser::ParserToInt($idRawKaryawan);
+      $resultSantize = SanitizeInput::Santize($dataInputed);
+      $UpdateDataKaryawan = new KaryawanModel();
+
+      try {
+         $resultUpdateKaryawan = $UpdateDataKaryawan->UpdateData($idKaryawan, $resultSantize);
+
+         if ($resultUpdateKaryawan == 1) {
+            return "Berhasil diupdate";
+         }
+      } catch (Exception $e) {
+         return $e->getMessage();
       }
    }
 }

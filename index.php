@@ -110,7 +110,7 @@ $DatasKaryawan = KaryawanController::GetAllKaryawan();
                               <section>
                                  <div>
                                     <a href="deletePage.php?id=<?= $Data[0] ?>">Hapus</a>
-                                    <a href="edit.php">Edit</a>
+                                    <a href="updatePage.php?id=<?= $Data[0] ?>">Edit</a>
                                  </div>
                               </section>
                            </td>
