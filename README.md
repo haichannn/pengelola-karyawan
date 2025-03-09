@@ -3,6 +3,14 @@ atau **Pak Sandhika Galih**, aplikasi ini bertema CRUD lalu menggunakan MySQL se
 aplikasi ini mengatur data karyawan seperti menambah, mengupdate dan menghapus data...
 
 
+## Gallery
+![indexPage](https://github.com/user-attachments/assets/39426853-21b9-43d5-a047-d8976c28e3a8)
+![addPage](https://github.com/user-attachments/assets/c45f11d1-dc26-4f1c-9de9-8ad91e276288)
+![updatePage](https://github.com/user-attachments/assets/285eb0cd-6432-4fb6-ad74-38a026dbe6c5)
+![deletePage](https://github.com/user-attachments/assets/d3af9956-e620-4c15-bff7-895e3c707757)
+
+
+
 ## Cara install 
 1. Install code editor ( **Vscode**, **Sublime Text**, etc.. )
 2. Install web browser ( **Google chrome**, **Mozilla firefox**, etc.. )
