@@ -20,6 +20,11 @@ aplikasi ini mengatur data karyawan seperti menambah, mengupdate dan menghapus d
 6. Buka di browser, ketik localhost lalu cari folder yang anda simpan 
 
 
+## Buat Database 
+   _nama database boleh diganti di file **Config/database.php**_
+
+      CREATE DATABASE project-pengelola-karyawan;
+
 ## Structure table 
 ### 1. Table karyawan
 
