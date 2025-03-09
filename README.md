@@ -1,0 +1,3 @@
+project ini merupakan hasil belajar dari playlist php OOP (Object Oriented Programming) dari channel nya **WPU**
+atau **Pak Sandhika Galih**, aplikasi ini bertema CRUD lalu menggunakan MySQL sebagai database nya.
+aplikasi ini mengatur data karyawan seperti menambah, mengupdate dan menghapus data...
